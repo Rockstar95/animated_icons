@@ -107,7 +107,7 @@ class _AnimateIconState extends State<AnimateIcon> with TickerProviderStateMixin
           repeat: widget.iconType == IconType.continueAnimation,
           controller: _animationController,
           onLoaded: (composition) {
-            // _animationController.duration = widget.repeatDelayDuration ?? composition.duration;
+            _animationController.duration = composition.duration;
             if (widget.iconType == IconType.continueAnimation) {
               iconTypeAction();
             }
