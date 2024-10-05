@@ -5,7 +5,7 @@ enum IconType {
   animatedOnHover,
   continueAnimation,
   onlyIcon,
-  toggleIcon
+  toggleIcon,
 }
 
 extension MyEnumExtension on IconType {
