@@ -40,8 +40,12 @@ class AnimateIcon extends StatefulWidget {
   /// optional parameter for AnimateIcon
   final String? toolTip;
 
+  /// [repeatDelayDuration] is for repeating animation after a delay
+  /// optional parameter for AnimateIcon
+  final Duration? repeatDelayDuration;
+
   const AnimateIcon({
-    Key? key,
+    super.key,
     required this.onTap,
     required this.iconType,
     required this.animateIcon,
@@ -50,15 +54,15 @@ class AnimateIcon extends StatefulWidget {
     this.color = Colors.black,
     this.onHover,
     this.toolTip,
-  }) : super(key: key);
+    this.repeatDelayDuration,
+  });
 
   @override
   State<AnimateIcon> createState() => _AnimateIconState();
 }
 
 /// State class of the [AnimateIcon]
-class _AnimateIconState extends State<AnimateIcon>
-    with TickerProviderStateMixin {
+class _AnimateIconState extends State<AnimateIcon> with TickerProviderStateMixin {
   /// Used to control the behaviour of the animation
   late final AnimationController _animationController;
 
@@ -125,24 +129,21 @@ class _AnimateIconState extends State<AnimateIcon>
   void iconTypeAction() {
     switch (widget.iconType) {
       case IconType.animatedOnHover:
-        _animationController
-            .forward()
-            .then((value) => _animationController.reset());
+        _animationController.forward().then((value) => _animationController.reset());
         break;
 
       case IconType.onlyIcon:
         break;
 
       case IconType.animatedOnTap:
-        _animationController
-            .forward()
-            .then((value) => _animationController.reset());
+        _animationController.forward().then((value) => _animationController.reset());
         break;
 
       case IconType.continueAnimation:
-        _animationController
-            .forward()
-            .then((value) => _animationController.repeat());
+        _animationController.forward().then((value) async {
+          if(widget.repeatDelayDuration != null) await Future.delayed(widget.repeatDelayDuration!);
+          _animationController.repeat();
+        });
 
         break;
       case IconType.toggleIcon:
